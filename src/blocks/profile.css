@@ -1,0 +1,136 @@
+.profile {
+    max-width: 282px;
+    text-align: center; 
+    margin: 0;
+    column-gap: 25px;
+ }
+ 
+ .profile__avatar {
+    position: relative;
+     width: 115px;
+     height: 115px;
+     align-self: center;
+     justify-self: center;
+     border-radius: 50%;
+     overflow: hidden;
+ }
+ 
+ .profile__avatar-img {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+    display: block;
+    border-radius: 50%;
+ }
+
+  .profile__avatar-edit-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    display: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    width: 115px;
+    height: 115px;
+
+}
+
+.profile__avatar-edit-button img {
+    width: 30px;
+    height: 30px;
+}
+
+.profile__avatar:hover .profile__avatar-edit-button {
+    display: block;
+}
+ 
+ .profile__about-edit {
+     border: none;
+     background: none;
+     padding-left: 5px;
+     
+ }
+ 
+.profile__about_edit-icon {
+    width: 18px;
+    height: 18px;
+}
+
+ .profile__about-name {
+    font-size: 20px;
+     margin-top: 20px;
+     margin-bottom: 0;
+     font-weight: 300;
+ }
+ 
+ .profile__about-occupation {
+     margin-top: 0;
+     text-align: center;
+ }
+ 
+ .profile__button-add {
+     align-self: stretch;
+     width: 100%;
+     height: 50px;
+     background: #000000;
+     color: #ffffff;
+     border-color: #ffffff;
+     font-size: 30px;
+     border-radius: 2px;
+     border-style: solid;
+     margin-top: 15px; 
+ }
+
+
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+     .profile {
+       max-width: 720px;
+       display: flex;
+       flex-direction: row;
+       align-items: center;
+       justify-content: space-between;
+    }
+
+    .profile__button-add {
+        width: 120px;
+        height: 50px;
+    }
+}
+
+
+ @media screen and (min-width: 1280px) {  
+    .profile {
+       max-width: 880px;
+       display: flex;
+       flex-direction: row;
+       align-items: center;
+       justify-content: space-between;
+    }
+    
+    .profile__about-name {
+        font-size: 42px;  
+        padding-bottom: 20px;
+    }
+    
+    .profile__about_edit-icon {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .profile__about-occupation {
+        font-size: 18px;
+        text-align: left;
+    }
+    
+    .profile__button-add {
+        width: 150px;
+        height: 50px;
+    }
+
+ }
+

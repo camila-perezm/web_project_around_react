@@ -1,0 +1,121 @@
+.cards { 
+    display: flex;
+    max-width: 282px;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    padding-top: 30px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.card {
+    margin-top: 30px;
+}
+ 
+.card__img {
+    position: relative;
+    display: inline-block;
+    display: flex;
+    border-radius: 10px 10px 0 0; 
+    overflow: hidden;
+}
+.card__img-url {
+    width: 282px;
+    height: 282px;  
+    object-fit: cover;
+}
+
+.card__img-url-open {
+    max-width: 75vw;
+    max-height: 75vh;
+}
+
+.card__delete-icon {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 10px;
+}
+
+.card__text {
+    color: #000000;
+    font-size: 16px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 282px;
+}
+
+.card__text-container {
+    display: flex;
+    margin-top: 0;
+    align-items: center;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: #ffffff;
+    max-height: 79px;
+    padding-left: 21px;
+   
+}
+
+.card__text-button-like {
+    border: none;
+    width: 21px;
+    height: 19px;
+    cursor: pointer;
+    display: flex;
+    background-color: #ffffff;  
+    padding-right: 30px; 
+    padding-left: 0px; 
+}
+
+.card__text-button-like:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.card__text-button-like-active {
+    background-image: url(../images/like-active.svg);
+    background-repeat: no-repeat;
+    border: none;
+    width: 21px;
+    height: 19px;
+    cursor: pointer;
+    background-size: contain;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 20px;
+        row-gap: 20px;
+        max-width: 720px; 
+     }
+
+     .card {
+        width: 282px;
+        height: 361px;
+     }
+}
+
+@media screen and (min-width: 1280px) {
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 20px;
+        row-gap: 20px;
+        max-width: 880px; 
+     }
+
+     .card {
+        width: 282px;
+        height: 361px;
+     }
+}
+
+
+
