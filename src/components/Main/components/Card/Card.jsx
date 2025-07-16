@@ -14,7 +14,7 @@ export default function Card({ card, handleOpenPopup, onCardLike, onCardDelete }
   }
 
   function handleDeleteClick(e) {
-    e.stopPropagation(); // Evita que se dispare el evento del popup al hacer click en eliminar
+    e.stopPropagation(); 
     onCardDelete(card);
   }
 
