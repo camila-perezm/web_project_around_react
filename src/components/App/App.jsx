@@ -1,15 +1,15 @@
-import './index.css';
+import '../../index.css';
 import { useState, useEffect } from 'react'
-import Header from './components/Header/Header';
-import Main from './components/Main/Main';
-import Footer from './components/Footer/Footer';
-import NewCard from './components/Main/components/Form/NewCard/NewCard';
-import EditProfile from './components/Main/components/Form/EditProfile/EditProfile';
-import EditAvatar from './components/Main/components/Form/EditAvatar/EditAvatar';
-import AddCardButton from './components/Main/components/Card/AddCardButton';
+import Header from '../Header/Header';
+import Main from '../Main/Main';
+import Footer from '../Footer/Footer';
+import NewCard from '../Main/components/Form/NewCard/NewCard';
+import EditProfile from '../Main/components/Form/EditProfile/EditProfile';
+import EditAvatar from '../Main/components/Form/EditAvatar/EditAvatar';
+import AddCardButton from '../Main/components/Card/AddCardButton';
 
-import api from './utils/api'
-import { CurrentUserContext } from './contexts/CurrentUserContext';
+import api from '../../utils/api'
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 
 
