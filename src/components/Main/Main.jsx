@@ -7,74 +7,39 @@ import editIcon from '../../images/edit-icon.svg';
 import editProfile from '../../images/edit_profile.png';
 
 import Popup from './components/Popup/Popup.jsx';
-import NewCard from './components/Form/NewCard/NewCard.jsx';
-import EditProfile from './components/Form/EditProfile/EditProfile.jsx';
-import EditAvatar from './components/Form/EditAvatar/EditAvatar.jsx';
 import Card from './components/Card/Card.jsx';
 import ImagePopup from './components/Popup/ImagePopup.jsx';
+import AddCardButton from './components/Card/AddCardButton.jsx';
 
-export default function Main() {
-  const [popup, setPopup] = useState(null);
+
+export default function Main({
+  popup,
+  setPopup,
+  handleClosePopup,
+  editProfilePopup,
+  newCardPopup,
+  avatarPopup,
+  cards,
+  onCardLike,
+  onCardDelete,
+  onAddCard
+}) {
+
+  const {currentUser} = useContext(CurrentUserContext);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [cards, setCards] = useState([]);
-  const currentUser = useContext(CurrentUserContext);
 
-  useEffect(() => {
-    if (!currentUser) return;
+ useEffect(() => {
+  console.log("useEffect: currentUser actualizado:", currentUser);
+}, [currentUser]); 
 
-    api.getInitialCards()
-      .then((cardsData) => {
-        const cardsWithLikes = cardsData.map(card => ({
-          ...card,
-          likes: card.likes || [],
-          isLiked: Array.isArray(card.likes) && currentUser
-            ? card.likes.some(user => user._id === currentUser._id)
-            : false,
-        }));
-        setCards(cardsWithLikes);
-      })
-      .catch((err) => {
-        console.error('Error al obtener las tarjetas:', err);
-      });
-  }, [currentUser]);
-
-  const editProfilePopup = { title: 'Editar perfil', children: <EditProfile /> };
-  const newCardPopup = { title: 'Nuevo lugar', children: <NewCard /> };
-  const avatarPopup = { title: 'Editar avatar', children: <EditAvatar /> };
-  const handleClosePopup = () => setPopup(null);
-
-  async function handleCardLike(card) {
-    const isLiked = Array.isArray(card.likes) && currentUser
-      ? card.likes.some(user => user._id === currentUser._id)
-      : false;
-
-    try {
-      const newCard = await api.changeLikeCardStatus(card._id, !isLiked);
-      console.log('Respuesta de API newCard:', newCard);
-
-   const newCardWithIsLiked = {
-  ...newCard,
-  likes: newCard.likes || [],
-  isLiked: Array.isArray(newCard.likes) && currentUser
-    ? newCard.likes.some(user => user._id === currentUser._id)
-    : false,
-};
-
-      setCards((state) =>
-        state.map((c) => (c._id === card._id ? newCardWithIsLiked : c))
-      );
-    } catch (error) {
-      console.error('Error al actualizar like:', error);
-    }
-  }
-
-  async function handleCardDelete(card) {
-  try {
-    await api.deleteCard(card._id);
-    setCards((state) => state.filter((c) => c._id !== card._id));
-  } catch (error) {
-    console.error('Error al eliminar la tarjeta:', error);
-  }
+function handleAddCard(cardData) {
+  api.addCard(cardData)
+    .then((newCard) => {
+      onAddCard(newCard);
+    })
+    .catch((err) => {
+      console.error("Error al agregar tarjeta:", err);
+    });
 }
 
   return (
@@ -101,28 +66,23 @@ export default function Main() {
         >
           <img src={editProfile} alt="Editar perfil" className="profile__about-edit-icon" />
         </button>
+       <AddCardButton onAddCard={handleAddCard} />
 
-        <button
-          className="profile__button-add"
-          onClick={() => setPopup(newCardPopup)}
-        >
-          +
-        </button>
       </section>
 
-      <section className="cards">
+      <div className="cards">
         <ul className="cards__list">
           {cards.map((card) => (
             <Card
               key={card._id}
               card={card}
               handleOpenPopup={setSelectedCard}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
             />
           ))}
         </ul>
-      </section>
+      </div>
 
       {popup && (
         <Popup title={popup.title} onClose={handleClosePopup}>

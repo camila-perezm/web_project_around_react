@@ -3,28 +3,98 @@ import { useState, useEffect } from 'react'
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
 import Footer from './components/Footer/Footer';
+import NewCard from './components/Main/components/Form/NewCard/NewCard';
+import EditProfile from './components/Main/components/Form/EditProfile/EditProfile';
+import EditAvatar from './components/Main/components/Form/EditAvatar/EditAvatar';
+import AddCardButton from './components/Main/components/Card/AddCardButton';
 
 import api from './utils/api'
 import { CurrentUserContext } from './contexts/CurrentUserContext';
 
-function App() {
-  const [currentUser, setCurrentUser] = useState(null);
 
-    useEffect(() => {
-    api.getUserInfo()
-      .then((userData) => {
-        setCurrentUser(userData);
+
+function App() {
+
+  const [cards, setCards] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
+  const [popup, setPopup] = useState(null);
+  const handleClosePopup = () => setPopup(null);
+
+   //this goes in hooks folder 
+  const editProfilePopup = { title: 'Editar perfil', children: <EditProfile /> };
+  const newCardPopup = { title: 'Nuevo lugar', children: <NewCard /> };
+  const avatarPopup = { title: 'Editar avatar', children: <EditAvatar /> };
+ 
+
+useEffect(() => {
+  (async () => {
+    try {
+      const userData = await api.getUserInfo();
+      setCurrentUser(userData);
+
+      const initialCards = await api.getInitialCards();
+      setCards(initialCards);
+    } catch (error) {
+      console.error(error);
+    }
+  })();
+}, []);
+
+  const handleUpdateUser = (data) => {
+    (async () => {
+      await api.updateUserInfo(data).then((newData) => {
+        setCurrentUser(newData);
+        handleClosePopup();
       })
-      .catch((err) => {
-        console.error('Error al obtener info del usuario:', err);
-      });
-  }, []);
+      .catch((error) => console.error(error));
+    })();
+  }
+ const handleUpdateAvatar  = (data) => {
+    (async () => {
+      await api.updateAvatar(data).then((newData) => {
+        setCurrentUser(newData);
+        handleClosePopup();
+      })
+      .catch((error) => console.error(error));
+    })();
+};
+
+  function handleCardLike(newCardState) {
+    const { _id: cardId } = newCardState
+    setCards((state) => {
+      return state.map((card) => (card._id === cardId ? newCardState : card))
+    });
+  }
+
+  function handleCardDelete(card) {
+    setCards((state) => state.filter((c) => c._id !== card._id))
+    }
+
+  async function handleAddPlaceSubmit(cardData) {
+  try {
+    const newCard = await api.addCard(cardData);
+    setCards([newCard, ...cards]); // añade la nueva tarjeta al inicio
+    handleClosePopup();
+  } catch (error) {
+    console.error("Error al agregar nueva tarjeta:", error);
+  }
+}
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={{ currentUser, handleUpdateUser, handleUpdateAvatar }}>
     <div className="page">
       <Header />
-      <Main />
+      <Main 
+      popup={popup}
+      setPopup={setPopup}
+      handleClosePopup={handleClosePopup}
+      editProfilePopup={editProfilePopup}
+      avatarPopup={avatarPopup}
+      cards={cards}
+      onCardLike={handleCardLike}
+      onCardDelete={handleCardDelete}
+      onAddCard={handleAddPlaceSubmit} 
+      />
       <Footer />
     </div>
     </CurrentUserContext.Provider>

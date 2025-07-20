@@ -1,7 +1,6 @@
 import closeIcon from '../../../../images/Close Icon.png';
 
 export default function Popup({ title, children, onClose }) {
-   console.log('Popup title:', title);
   return (
     <section className="popup"> 
       <div className="popup__content">

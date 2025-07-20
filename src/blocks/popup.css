@@ -39,7 +39,7 @@
 }
 
 .popup__form {
-    max-width: 238px;
+    max-width: 240px;
 }
 
 .popup_type_confirm .popup__form {
@@ -167,17 +167,18 @@ input.touched:invalid {
 }
 
 @media screen and (min-width: 1280px) {
-    .popup__content {
-        width: 430px;
-    }
-
+  
     .popup__title {
         font-size: 24px;
         text-align: left;
     }
 
+    .popup__content {
+        width: 350px;
+    }
+
     .popup__form {
-        max-width: 350px;
+       max-width: 280px;
     }
 
     .popup__input {
@@ -195,4 +196,9 @@ input.touched:invalid {
     .popup__button_disabled {
         width: 100%;
     }
+
+    .popup__content_type_image {
+     width: auto;
+     height: auto;
+}
 }

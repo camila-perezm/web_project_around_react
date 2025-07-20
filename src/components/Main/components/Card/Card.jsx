@@ -1,21 +1,40 @@
-import { useContext } from 'react';
-import { CurrentUserContext } from '../../../../contexts/CurrentUserContext';
-import deleteIcon from '../../../../images/delete.svg';
-import likeIcon from '../../../../images/like.svg';
-import likeActiveIcon from '../../../../images/like-active.svg';
+import useToggleLike from "../../../../hooks/useToggleLike";
+import useDeleteCard from "../../../../hooks/useDeleteCard";
+import deleteIcon from "../../../../images/delete.svg";
+import likeIcon from "../../../../images/like.svg";
+import likeActiveIcon from "../../../../images/like-active.svg";
+import Spinner from "../../../ui/Spinner";
 
-export default function Card({ card, handleOpenPopup, onCardLike, onCardDelete }) {
+export default function Card({
+  card,
+  handleOpenPopup,
+  onCardLike,
+  onCardDelete,
+}) {
   const { name, link, likes = [], isLiked } = card;
-  const currentUser = useContext(CurrentUserContext);
 
-  function handleLikeClick() {
-    console.log('Click en like, tarjeta:', card._id, 'isLiked:', isLiked);
-    onCardLike(card);
+  const { isTogglingLike, toggleLike } = useToggleLike(card);
+  const { isDeletingCard, deleteCard } = useDeleteCard(card);
+
+  async function handleLikeClick() {
+    try {
+      const newCardState = await toggleLike();
+      onCardLike(newCardState);
+    } catch (error) {
+      console.error("Error al actualizar like:", error);
+    }
   }
 
-  function handleDeleteClick(e) {
-    e.stopPropagation(); 
-    onCardDelete(card);
+  async function handleDeleteClick(e) {
+    e.stopPropagation();
+    try {
+      const response = await deleteCard();
+      if (response === "ok") {
+        onCardDelete(card);
+      }
+    } catch (error) {
+      console.error("Error al eliminar la tarjeta:", error);
+    }
   }
 
   return (
@@ -26,7 +45,11 @@ export default function Card({ card, handleOpenPopup, onCardLike, onCardDelete }
           onClick={handleDeleteClick}
           aria-label="Eliminar tarjeta"
         >
-          <img src={deleteIcon} alt="Eliminar" />
+          {isDeletingCard ? (
+            <Spinner />
+          ) : (
+            <img src={deleteIcon} alt="Eliminar" />
+          )}
         </button>
         <img className="card__img-url" src={link} alt={name} />
       </div>
@@ -38,11 +61,15 @@ export default function Card({ card, handleOpenPopup, onCardLike, onCardDelete }
             aria-label="Like"
             className="card__like-button"
           >
-            <img
-              src={isLiked ? likeActiveIcon : likeIcon}
-              alt="Like"
-              className="card__like-icon"
-            />
+            {isTogglingLike ? (
+              <Spinner />
+            ) : (
+              <img
+                src={isLiked ? likeActiveIcon : likeIcon}
+                alt="Like"
+                className="card__like-icon"
+              />
+            )}
           </button>
           <span className="card__like-count">{likes?.length || 0}</span>
         </div>

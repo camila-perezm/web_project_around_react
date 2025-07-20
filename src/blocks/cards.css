@@ -1,4 +1,4 @@
-.cards { 
+.card { 
     display: flex;
     max-width: 282px;
     flex-direction: column;
@@ -6,12 +6,13 @@
     margin: auto;
     padding-top: 30px;
     text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+    /*white-space: nowrap;
+    overflow: hidden;*/
 }
 
-.card {
+.cards__list {
     margin-top: 30px;
+    list-style: none;
 }
  
 .card__img {
@@ -107,7 +108,7 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 1279px) {
-    .cards {
+    .cards__list {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         column-gap: 20px;
@@ -115,14 +116,18 @@
         max-width: 720px; 
      }
 
+    .cards {
+        max-width: 100%;
+    }
+
      .card {
-        width: 282px;
-        height: 361px;
+        width: 280px;
+        height: 360px;
      }
 }
 
 @media screen and (min-width: 1280px) {
-    .cards {
+    .cards__list {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         column-gap: 20px;
@@ -132,7 +137,7 @@
 
      .card {
         width: 280px;
-        height: 361px;
+        height: 360px;
      }
 }
 

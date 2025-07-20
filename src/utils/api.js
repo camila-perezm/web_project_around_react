@@ -12,14 +12,14 @@ class Api {
   };
 
   //Método para obtener las tarjetas iniciales
-  getInitialCards() {
+  async getInitialCards() {
     return fetch(`${this._baseURL}/cards`, {
       method: "GET",
       headers: this._headers,
     }).then(this._response);
   }
 
-  addCard(data) {
+  async addCard(data) {
     return fetch(`${this._baseURL}/cards`, {
       method: "POST",
       headers: this._headers,
@@ -30,46 +30,46 @@ class Api {
     }).then(this._response);
   }
 
-  updateUserInfo(data) {
+  async updateUserInfo(data) {
     return fetch(`${this._baseURL}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
-        about: data.occupation,
+        about: data.about,
       }),
     }).then(this._response);
   }
 
-  getUserInfo() {
+  async getUserInfo() {
     return fetch(`${this._baseURL}/users/me`, {
       method: "GET",
       headers: this._headers,
     }).then(this._response);
   }
 
-  likeCard(cardId) {
+  async likeCard(cardId) {
     return fetch(`${this._baseURL}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: this._headers,
     }).then(this._response);
   }
 
-  unLikeCard(cardId) {
+  async unLikeCard(cardId) {
     return fetch(`${this._baseURL}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: this._headers,
     }).then(this._response);
   }
 
-  deleteCard(cardId) {
+  async deleteCard(cardId) {
     return fetch(`${this._baseURL}/cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
     }).then(this._response);
   }
 
-  updateAvatar(data) {
+  async updateAvatar(data) {
     return fetch(`${this._baseURL}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
@@ -79,7 +79,7 @@ class Api {
     }).then(this._response);
   }
 
-  changeLikeCardStatus(cardId, isLiked) {
+  async changeLikeCardStatus(cardId, isLiked) {
     return fetch(`${this._baseURL}/cards/${cardId}/likes`, {
       method: isLiked ? "PUT" : "DELETE",
       headers: this._headers,
